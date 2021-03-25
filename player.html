@@ -1,0 +1,159 @@
+<html>
+ <head>
+  <title>VideoCDN Streaming</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=480" />
+  <style type="text/css">
+   .embed-responsive {
+    position: relative;
+    display: block;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+   }
+   .embed-responsive .embed-responsive-item,
+   .embed-responsive embed,
+   .embed-responsive iframe,
+   .embed-responsive object,
+   .embed-responsive video {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+   }
+   .embed-responsive-16by9 {
+    padding-bottom: 56.25%;
+   }
+   input {
+    background-color: #fefefe;
+    color: #222;
+    font-size: 15px;
+    width: 100%;
+    height: auto; /*20%;*/
+    border: 1px solid #fefefe;
+    border-radius: 2px;
+    margin: 10px 0px;
+    text-align: left;
+    font-size: 10px;
+    position: relative;
+    line-height: 12px;
+   }
+   #url {
+    cursor: pointer;
+    background-color: #fefefe;
+    padding: 10px 5px;
+    border: 1px solid #b1b1b1;
+    border-radius: 2px;
+    text-align: left;
+    position: relative;
+    line-height: 12px;
+   }
+   .button {
+    background-color: #efefef;
+    border: 1px solid #b1b1b1;
+    border-radius: 3px;
+    color: #333;
+    fill: #333;
+    padding: 8px 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    width: auto;
+    margin: 14px 2px;
+    filter: none;
+    cursor: pointer;
+    outline: none;
+   }
+  </style>
+ </head>
+ <body>
+  <div class="embed-responsive embed-responsive-16by9">
+   <iframe class="embed-responsive-item" src="jwplayer.hls.html" style="border: 1px solid #b1b1b1;" frameborder="0" scrolling="no" align="middle" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
+  </div>
+  <p style="font-weight: 700; font-size: 16px; color: #222;">ใส่ URL วิดีโอ:</p>
+  <div style="margin-top: -18px;"></div>
+  <input id="url" type="url" value="" />
+  <div>
+   <button class="button" onclick="readyStream()">Start</button>
+   <button class="button" onclick="CopyString()">Copy</button>
+   <button class="button paste">Paste</button>
+   <button class="button" onclick="resetStream()">Reset</button>
+  </div>
+  <p style="font-weight: 700; font-size: 16px; color: #222;">Demo Mp4 Link:</p>
+  <p>1. <a href="https://nyanpasu3.cii3.page/Hisone-to-Masotan-ED.mp4" target="_blank">https://nyanpasu3.cii3.page/Hisone-to-Masotan-ED.mp4</a></p>
+  <br>
+  <p style="font-weight: 700; font-size: 16px; color: #222;">Demo Hls Link:</p>
+  <p>1. <a href="https://nyanpasu3.cii3.page/hls/Violet-Evergarden-CM/playlist.m3u8" target="_blank">https://nyanpasu3.cii3.page/hls/Violet-Evergarden-CM/playlist.m3u8</a></p>
+  <p>2. <a href="http://cdn.jwplayer.com/manifests/eRKHTxmp.m3u8" target="_blank">http://cdn.jwplayer.com/manifests/eRKHTxmp.m3u8</a></p>
+  <p>3. <a href="http://cdn.jwplayer.com/manifests/Bja39Hdc.m3u8" target="_blank">http://cdn.jwplayer.com/manifests/Bja39Hdc.m3u8</a></p>
+  <p>4. <a href="http://cdn.jwplayer.com/manifests/1d8U67X8.m3u8" target="_blank">http://cdn.jwplayer.com/manifests/1d8U67X8.m3u8</a></p>
+  <p>5. <a href="http://cdn.jwplayer.com/manifests/JSRD8LAL.m3u8" target="_blank">http://cdn.jwplayer.com/manifests/JSRD8LAL.m3u8</a></p>
+  <p>6. <a href="http://cdn.jwplayer.com/manifests/MumoXPlR.m3u8" target="_blank">http://cdn.jwplayer.com/manifests/MumoXPlR.m3u8</a></p>
+  <p>7. <a href="http://cdn.jwplayer.com/manifests/NElWPin4.m3u8" target="_blank">http://cdn.jwplayer.com/manifests/NElWPin4.m3u8</a></p>
+  <p>8. <a href="http://cdn.jwplayer.com/manifests/WsTcQ6Hd.m3u8" target="_blank">http://cdn.jwplayer.com/manifests/WsTcQ6Hd.m3u8</a></p>
+  <p>9. <a href="http://cdn.jwplayer.com/manifests/NrexdncF.m3u8" target="_blank">http://cdn.jwplayer.com/manifests/NrexdncF.m3u8</a></p>
+  <p>10. <a href="http://cdn.jwplayer.com/manifests/TpCi70w4.m3u8" target="_blank">http://cdn.jwplayer.com/manifests/TpCi70w4.m3u8</a></p>
+  <br>
+  <script type="text/javascript">
+   var ifr = document.querySelectorAll("iframe")[0];
+   var ifrWindow = ifr.contentWindow;
+   var isInput = document.querySelectorAll("input")[0];
+   function readyStream() {
+    var videoUrl = isInput.value;
+    if (videoUrl) {
+     if (ifr.src) {
+      let playlist = {
+       source: videoUrl == "" ? null : videoUrl,
+       referrer: document.referrer.split("/")[2],
+       timestamp: new Date().getTime(),
+      };
+      ifrWindow.postMessage(playlist, "*");
+     }
+    }
+   }
+   function resetStream() {
+    var videoUrl = isInput.value;
+    if (videoUrl) {
+     isInput.value = "";
+    }
+   }
+   function useAsyncApi() {
+    return "async";
+   }
+   function PasteString() {
+    if (useAsyncApi()) {
+     navigator.clipboard
+      .readText()
+      .then((text) => {
+       isInput.value = text;
+      })
+      .catch((err) => alert(err));
+    } else {
+     isInput.focus();
+     try {
+      var successful = document.execCommand("paste");
+      var msg = successful ? "successful" : "unsuccessful";
+      alert("Pasting text command was " + msg);
+     } catch (err) {
+      alert("execCommand Error: " + err);
+     }
+    }
+   }
+   var btnPaste = document.querySelector(".paste");
+   btnPaste.addEventListener("click", PasteString);
+   function CopyString() {
+    isInput.focus();
+    isInput.select();
+    document.execCommand("Copy");
+    if (document.selection || document.textSelection) {
+     document.selection.empty();
+    } else if (window.getSelection) {
+     window.getSelection().removeAllRanges();
+    }
+   }
+  </script>
+ </body>
+</html>
